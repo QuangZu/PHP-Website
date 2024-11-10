@@ -17,21 +17,25 @@
         </div>
         <!-- Search Bar -->
         <div class="flex items-center space-x-2 w-1/3 pl-10 relative">
-            <!-- Icon inside the input field -->
             <span class="absolute left-16 text-gray-400 pointer-events-none">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </span>
-            <!-- Input Field -->
-            <input 
-                type="text" id="search-input" placeholder="Search" class="w-full py-1.5 pl-10 pr-3 rounded-full focus:outline-none"/>
+            <form action="search.php" method="get" class="w-full">
+                <input 
+                    type="text" name="query" id="search-input" placeholder="Search" 
+                    class="w-full py-1.5 pl-10 pr-3 rounded-full focus:outline-none" 
+                    onkeypress="if(event.key === 'Enter') { this.form.submit(); event.preventDefault(); }"
+                />
+            </form>
         </div>
+
         <!-- Right-Icon -->
         <div class="flex items-center space-x-5 pr-10">
             <?php if (!$isLoggedIn): ?>
                 <a href="login.php" class="text-white text-2l font-semibold">Login</a>
                 <a href="register.php" class="text-white text-2l font-semibold">Register</a>
             <?php else: ?>
-                <a href="index.php" class="text-white text-2l font-semibold">Logout</a>
+                <a href="logout.php" class="text-white text-2l font-semibold">Logout</a>
                 <span class="text-white text-2l font-semibold"><?= htmlspecialchars($username) ?></span>
             <?php endif; ?>
 
@@ -55,7 +59,7 @@
         <!-- Sidebar Menu -->
         <div class="box-content w-60 p-2 border-r-2 border-gray-200 fixed top-16 h-full pt-10 ">
             <!-- Home Box -->
-            <a href="questions.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
+            <a href="index.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                 <div class="text-center ">
                     <i class="fa fa-home pr-2" aria-hidden="true"></i>
                     <span class="text-black text-l font-medium">Home</span>

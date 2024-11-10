@@ -2,7 +2,7 @@
     <?php if ($isLoggedIn): ?>
         <div class="flex items-center justify-between">
             <header class="text-2xl font-sans font-bold pl-2 py-5">My Post</header>
-            <a href="php/create_post.php" class="text-2xl font-sans font-bold bg-indigo-500 text-white rounded-full px-1.5 mr-3 scale-105">
+            <a href="create_post.php" class="text-2xl font-sans font-bold bg-indigo-500 text-white rounded-full px-1.5 mr-3 scale-105">
                 <i class="fa-solid fa-plus"></i>
             </a>
         </div>
@@ -36,11 +36,11 @@
                     </div>
                     <div class="absolute top-0 right-0 m-4">
                         <button id="optionsButton-<?= $post['questionid'] ?>" class="text-gray-600 text-2xl font-bold pr-2 focus:outline-none">&#8230;</button>
-                        <div id="optionsMenu-<?= $post['questionid'] ?>" class="absolute right-0 mt-2 w-24 bg-white rounded-md shadow-lg hidden">
+                        <div id="optionsMenu-<?= $post['questionid'] ?>" class="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg hidden">
                             <button onclick="editPost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                            <i class="fa-solid fa-pen pr-1"></i>Edit</button>
+                            <i class="fa-solid fa-pen pr-2"></i>Edit</button>
                             <button onclick="deletePost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                            <i class="fa-solid fa-trash pr-1"></i>Delete</button>
+                            <i class="fa-solid fa-trash pr-2"></i>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
         <div class="flex items-center">
             <header class="text-2xl font-sans font-bold pl-2 py-5">My Post</header>
         </div>
-            <p class="text-gray-500 mt-4">Please <a href="php/login.php" class="text-blue-500">log in</a> to post question.</p>
+            <p class="text-gray-500 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to post question.</p>
     <?php endif; ?>
 </div>
 

@@ -55,7 +55,99 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['like']) && $isLoggedIn
     exit;
 }
 
-$stmt = $pdo->prepare('SELECT * FROM comment WHERE questionid = ? ORDER BY commentdate ASC');
+// Handle comment deletion
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteComment']) && $isLoggedIn) {
+    $commentId = $_POST['comment_id'];
+    
+    // Fetch the comment to check ownership
+    $stmt = $pdo->prepare('SELECT user_id FROM comment WHERE commentid = ?');
+    $stmt->execute([$commentId]);
+    $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // If the logged-in user is the owner of the comment, delete it
+    if ($comment && $comment['user_id'] == $user_id) {
+        $stmt = $pdo->prepare('DELETE FROM comment WHERE commentid = ?');
+        $stmt->execute([$commentId]);
+        
+        // Decrement the comment count in the question table
+        $pdo->prepare("UPDATE question SET number_comment = number_comment - 1 WHERE questionid = ?")->execute([$questionId]);
+        
+        // Redirect to the same question page to refresh comments
+        header("Location: question.php?id=$questionId");
+        exit;
+    } else {
+        $error = "You are not authorized to delete this comment.";
+    }
+}
+
+// Handle comment edit request (initialize edit mode)
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editComment']) && $isLoggedIn) {
+    $commentId = $_POST['comment_id'];
+    
+    // Verify ownership and set edit mode
+    $stmt = $pdo->prepare('SELECT user_id FROM comment WHERE commentid = ?');
+    $stmt->execute([$commentId]);
+    $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($comment && $comment['user_id'] == $user_id) {
+        $_POST['editComment'] = true;
+    } else {
+        $error = "You are not authorized to edit this comment.";
+    }
+}
+
+// Handle saving an edited comment
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveComment']) && $isLoggedIn) {
+    $commentId = $_POST['comment_id'];
+    $updatedCommentText = $_POST['updatedCommentText'];
+
+    $stmt = $pdo->prepare('SELECT user_id FROM comment WHERE commentid = ?');
+    $stmt->execute([$commentId]);
+    $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($comment && $comment['user_id'] == $user_id) {
+        $stmt = $pdo->prepare('UPDATE comment SET commenttext = ? WHERE commentid = ?');
+        $stmt->execute([$updatedCommentText, $commentId]);
+        header("Location: question.php?id=$questionId");
+        exit;
+    } else {
+        $error = "You are not authorized to edit this comment.";
+    }
+}
+
+// Handle comment deletion
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteComment']) && $isLoggedIn) {
+    $commentId = $_POST['comment_id'];
+
+    $stmt = $pdo->prepare('SELECT user_id FROM comment WHERE commentid = ?');
+    $stmt->execute([$commentId]);
+    $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($comment && $comment['user_id'] == $user_id) {
+        $stmt = $pdo->prepare('DELETE FROM comment WHERE commentid = ?');
+        $stmt->execute([$commentId]);
+        header("Location: question.php?id=$questionId");
+        exit;
+    } else {
+        $error = "You are not authorized to delete this comment.";
+    }
+}
+
+// Handle cancel edit action
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelEdit'])) {
+    // Redirect back to the question page to cancel edit mode
+    header("Location: question.php?id=$questionId");
+    exit;
+}
+
+// Fetch comments with user image from the `user` table
+$stmt = $pdo->prepare('
+    SELECT c.*, u.image
+    FROM comment c
+    LEFT JOIN user u ON c.user_id = u.user_id
+    WHERE c.questionid = ?
+    ORDER BY c.commentdate ASC
+');
 $stmt->execute([$questionId]);
 $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -100,6 +100,35 @@ if (isset($_POST['change_password'])) {
     }
 }
 
+// Handle account deletion
+if (isset($_POST['delete_account']) && $isLoggedIn) {
+    try {
+        // Delete user from the database
+        $pdo->beginTransaction();
+
+        // Delete user questions, comments, or other related records if needed
+        $stmt = $pdo->prepare('DELETE FROM question WHERE user_id = :user_id');
+        $stmt->execute(['user_id' => $user_id]);
+
+        $stmt = $pdo->prepare('DELETE FROM comment WHERE user_id = :user_id');
+        $stmt->execute(['user_id' => $user_id]);
+
+        // Delete the user record
+        $stmt = $pdo->prepare('DELETE FROM user WHERE user_id = :user_id');
+        $stmt->execute(['user_id' => $user_id]);
+
+        $pdo->commit();
+
+        // Destroy session and redirect
+        session_destroy();
+        header("Location: goodbye.php"); // Optionally, create a goodbye.php page
+        exit;
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        $error = "There was an error deleting your account: " . $e->getMessage();
+    }
+}
+
 $sql = "SELECT questionid, questiontitle FROM question WHERE user_id = :user_id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['user_id' => $user_id]);

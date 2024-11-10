@@ -56,7 +56,7 @@
                 <textarea id="commentTextarea" name="comment" rows="1" placeholder="Add a comment..." class="w-full p-2 border rounded-2xl resize-none overflow-hidden"></textarea>
                 <input type="hidden" name="questionid" value="<?= $question['questionid'] ?>">
                 <div class="flex justify-end">
-                    <button id="postButton" type="submit" name="submitComment" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-full hidden">Comment</button>
+                    <button id="postButton" type="submit" name="submitComment" class="absolute mt-2 px-4 py-2 bg-blue-500 text-white rounded-full hidden">Comment</button>
                 </div>
             </div>
             <script src="js/question.js"></script>
@@ -67,13 +67,60 @@
 
     <!-- Comments Section -->
     <div class="w-full">
-        <ul class="mt-2">
+        <ul class="mt-5">
             <?php foreach ($comments as $comment): ?>
-                <li class="mt-4">
-                    <p><strong><?= htmlspecialchars($comment['username']) ?></strong></p>
-                    <p><?= htmlspecialchars($comment['commenttext']) ?></p>
-                    <p class="text-slate-400 dark:text-slate-500 mt-2 text-xs"><?= htmlspecialchars($comment['commentdate']) ?></p>
+                <li class="relative py-5 border-b-2 border-gray-100">
+                    <div class="inline-flex space-x-2">
+                        <?php if (!empty($comment['image'])): ?>
+                            <img src="<?= htmlspecialchars($comment['image']) ?>" alt="Profile Image" class="w-6 h-6 rounded-full object-cover">
+                        <?php else: ?>
+                            <span class="p-1">
+                                <svg class="h-4 w-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A12.062 12.062 0 0112 15.5c2.99 0 5.74 1.1 7.879 2.804m-7.879-6.35a4 4 0 100-8 4 4 0 000 8z" />
+                                </svg>
+                            </span>
+                        <?php endif; ?>
+                        <p><strong><?= htmlspecialchars($comment['username']) ?></strong></p>
+                    </div>
+
+                    <?php if ($isLoggedIn && $comment['user_id'] == $user_id && isset($_POST['editComment']) && $_POST['comment_id'] == $comment['commentid']): ?>
+                        <!-- Edit Comment Form -->
+                        <form method="POST" action="question.php?id=<?= $questionId ?>" class="mt-2">
+                            <textarea name="updatedCommentText" rows="2" class="w-full p-2 border rounded-lg resize-none" oninput="autoResize(this)"><?= htmlspecialchars($comment['commenttext']) ?></textarea>
+                            <input type="hidden" name="comment_id" value="<?= $comment['commentid'] ?>">
+                            <div class="flex justify-end">
+                                <button type="submit" name="cancelEdit" class="bg-gray-500 text-white rounded-full py-2 px-4 mr-4 mt-2">Cancel</button>
+                                <button type="submit" name="saveComment" class="bg-green-500 text-white rounded-full py-2 px-4 mt-2">Save</button>
+                            </div>
+                        </form>
+                        <script src="js/textarea.js"></script>
+                    <?php else: ?>
+                        <p class="pl-3"><?= htmlspecialchars($comment['commenttext']) ?></p>
+                        <p class="text-slate-400 dark:text-slate-500 mt-2 pl-2 text-xs"><?= htmlspecialchars($comment['commentdate']) ?></p>
+                    <?php endif; ?>
+
+                    <!-- Options Dropdown (Edit/Delete) -->
+                    <?php if ($isLoggedIn && $comment['user_id'] == $user_id): ?>
+                        <div class="absolute top-0 right-0 m-4">
+                            <button id="optionsButton-<?= $comment['commentid'] ?>" class="text-gray-600 text-2xl font-bold pr-2 focus:outline-none">&#8230;</button>
+                            <div id="optionsMenu-<?= $comment['commentid'] ?>" class="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg hidden">
+                                <form method="POST" action="question.php?id=<?= $questionId ?>" class="w-full">
+                                    <input type="hidden" name="comment_id" value="<?= $comment['commentid'] ?>">
+                                    <button type="submit" name="editComment" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        <i class="fa-solid fa-pen pr-2"></i> Edit
+                                    </button>
+                                </form>
+                                <form method="POST" action="question.php?id=<?= $questionId ?>" class="w-full">
+                                    <input type="hidden" name="comment_id" value="<?= $comment['commentid'] ?>">
+                                    <button type="submit" name="deleteComment" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        <i class="fa-solid fa-trash pr-2"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </li>
+                <script src="js/comment.js"></script>
             <?php endforeach; ?>
         </ul>
     </div>

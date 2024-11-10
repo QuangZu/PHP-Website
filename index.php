@@ -1,2 +1,2 @@
 <?php
-    include "php/questions.php";
+    include "questions.php";

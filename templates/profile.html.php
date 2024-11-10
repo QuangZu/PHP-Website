@@ -1,12 +1,5 @@
 <header class="text-2xl font-sans font-bold pl-2 py-5 mx-auto w-4/5">Profile</header>
 
-<?php if (!empty($success)): ?>
-    <p class="bg-green-100 text-green-700 p-4 rounded-lg"><?= htmlspecialchars($success) ?></p>
-<?php endif; ?>
-<?php if (!empty($error)): ?>
-    <p class="bg-red-100 text-red-700 p-4 rounded-lg"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
-
 <div class="flex flex-col space-y-8 w-4/5 mx-auto">
     <div class="bg-white dark:bg-slate-800 p-8 pl-10 rounded-lg shadow-lg">
         <div class="flex items-center justify-between">
@@ -22,9 +15,9 @@
                 <?php endif; ?>
                 <p class="text-2xl font-bold"><?= htmlspecialchars($user['username']) ?></p>
             </div>
-            <div class="relative">
+            <div class="relative mb-12">
                 <span id="profileOptionsButton" class="cursor-pointer hover:bg-gray-200 rounded-md py-2 px-3">
-                    <i class="fa-solid fa-pen text-gray-700 scale-125 pr-1"></i> Edit Profile
+                    <i class="fa-solid fa-gear h-10 text-gray-700 scale-150 py-3 px-1"></i>
                 </span>
                 <div id="profileOptionsMenu" class="absolute right-0 mt-2 w-48 bg-white shadow-lg hidden">
                     <button onclick="toggleModal('uploadImage')" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
@@ -39,6 +32,9 @@
                     <button onclick="toggleModal('changePassword')" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
                         <i class="fa-solid fa-key pr-2"></i>Change Password
                     </button>
+                    <button onclick="toggleModal('deleteAccount')" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                        <i class="fa-solid fa-trash pr-2"></i>Delete Account
+                    </button>
                 </div>
             </div>
         </div>
@@ -51,7 +47,7 @@
     <!-- Upload Image Modal -->
     <div id="uploadImage" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
-            <form action="php/profile.php" method="POST" enctype="multipart/form-data">
+            <form action="profile.php" method="POST" enctype="multipart/form-data">
                 <h2 class="text-xl font-semibold mb-4">Upload Profile Image</h2>
                 <input type="file" name="profile_image" class="mt-2 p-2 bg-gray-100 rounded-md" accept="image/*">
                 <button type="submit" name="upload_image" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Upload</button>
@@ -64,7 +60,7 @@
     <div id="changeName" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
             <h2 class="text-xl font-semibold mb-4">Change Name</h2>
-            <form action="php/profile.php" method="POST">
+            <form action="profile.php" method="POST">
                 <label class="block text-sm font-medium">Username</label>
                 <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" class="mt-1 p-2 bg-gray-100 rounded-md w-full">
                 <div class="flex justify-between mt-6">
@@ -79,7 +75,7 @@
     <div id="changeEmail" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
             <h2 class="text-xl font-semibold mb-4">Change Email</h2>
-            <form action="php/profile.php" method="POST">
+            <form action="profile.php" method="POST">
                 <label class="block text-sm font-medium">Email</label>
                 <input type="text" name="email" value="<?= htmlspecialchars($user['email']) ?>" class="mt-1 p-2 bg-gray-100 rounded-md w-full">
                 <div class="flex justify-between mt-6">
@@ -94,7 +90,7 @@
     <div id="changePassword" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
             <h2 class="text-xl font-semibold mb-4">Change Password</h2>
-            <form action="php/profile.php" method="POST">
+            <form action="profile.php" method="POST">
                 <label class="block text-sm font-medium">New Password</label>
                 <input type="password" name="new_password" class="mt-1 p-2 bg-gray-100 rounded-md w-full">
                 <label class="block text-sm font-medium mt-4">Confirm New Password</label>
@@ -106,6 +102,25 @@
             </form>
         </div>
     </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteAccount" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
+            <h2 class="text-xl font-semibold mb-4">Delete Account</h2>
+            <p class="text-gray-700">Are you sure you want to delete your account? This account will be permanently deleted.</p>
+            <form action="profile.php" method="POST" class="flex justify-end mt-6 space-x-4">
+                <button type="button" onclick="toggleModal('deleteAccount')" class="px-4 py-2 bg-gray-300 text-black rounded-md ml-4">Cancel</button>
+                <button type="submit" name="delete_account" class="px-4 py-2 bg-red-600 text-white rounded-md">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <?php if (!empty($success)): ?>
+        <p class="bg-green-100 text-green-700 p-4 rounded-lg"><?= htmlspecialchars($success) ?></p>
+    <?php endif; ?>
+    <?php if (!empty($error)): ?>
+        <p class="bg-red-100 text-red-700 p-4 rounded-lg"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 </div>
 
 <script src="js/profile.js"></script>

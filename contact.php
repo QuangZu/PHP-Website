@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 }
 
-ob_start();
+ob_start(); 
 include 'templates/contact.html.php';
 $output = ob_get_clean();
 include 'templates/layout.html.php';

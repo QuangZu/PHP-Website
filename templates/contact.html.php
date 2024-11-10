@@ -10,9 +10,9 @@
     <?php if ($isLoggedIn): ?>
         <form action="contact.php" method="post">
             <textarea name="questiontitle" rows="2" cols="40" placeholder="Title"
-                    class="w-full p-2 border rounded-2xl resize-none"></textarea>
+                    class="w-full p-2 border rounded-2xl resize-none" oninput="autoResize(this)"></textarea>
             <textarea name="questiontext" rows="3" cols="40" placeholder="Body"
-                    class="w-full p-2 border rounded-2xl resize-none"></textarea>
+                    class="w-full p-2 border rounded-2xl resize-none" oninput="autoResize(this)"></textarea>
             <div class="flex justify-end">
                 <input type="submit" name="submit" value="Send" class="bg-red-500 text-white rounded-full mt-4 px-4 py-2">
             </div>
@@ -22,4 +22,5 @@
     <?php endif?>
 
     <?= htmlspecialchars($success), htmlspecialchars($error) ?>
+    <script src="js/textarea.js"></script>
 </div>
