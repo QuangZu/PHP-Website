@@ -121,7 +121,7 @@ if (isset($_POST['delete_account']) && $isLoggedIn) {
 
         // Destroy session and redirect
         session_destroy();
-        header("Location: goodbye.php"); // Optionally, create a goodbye.php page
+        header("Location: login.php");
         exit;
     } catch (Exception $e) {
         $pdo->rollBack();
