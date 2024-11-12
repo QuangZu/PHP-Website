@@ -58,7 +58,7 @@
     <div class="flex">
         <!-- Sidebar Menu -->
         <div class="box-content w-60 p-2 border-r-2 border-gray-200 fixed top-16 h-full pt-10 ">
-            <!-- Home Box -->
+            <!-- Home -->
             <a href="index.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                 <div class="text-center ">
                     <i class="fa fa-home pr-2" aria-hidden="true"></i>
@@ -66,24 +66,23 @@
                 </div>
             </a>
 
-            <!-- Module Box -->
+            <!-- Module -->
             <a href="modules.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                 <div class="text-center ">
                     <i class="fa-solid fa-bookmark pl-0.5 pr-2.5"></i>
                     <span class="text-black text-l font-medium">Module</span>
                 </div>
             </a> 
+            <?php if ($isLoggedIn && $role == 2): ?> 
+                <!-- Admin Post -->
+                <a href="my_post.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
+                    <div class="text-center">
+                        <i class="fa-solid fa-circle-user pr-2"></i>
+                        <span class="text-black text-l font-medium">Post</span>
+                    </div>
+                </a>
 
-            <!-- Post Box -->
-            <a href="my_post.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
-                <div class="text-center">
-                    <i class="fa-solid fa-circle-user pr-2"></i>
-                    <span class="text-black text-l font-medium">My Post</span>
-                </div>
-            </a> 
-
-            <!-- Contact or Users Box -->
-            <?php if ($isLoggedIn && $role == 2): ?>
+                <!-- Users -->
                 <a href="users.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto">
                     <div class="text-center">
                         <i class="fa-solid fa-users pr-2"></i>
@@ -91,6 +90,14 @@
                     </div>
                 </a>
             <?php else: ?>
+                <!-- Post -->
+                <a href="my_post.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
+                    <div class="text-center">
+                        <i class="fa-solid fa-circle-user pr-2"></i>
+                        <span class="text-black text-l font-medium">My Post</span>
+                    </div>
+                </a>
+                <!-- Contact -->
                 <a href="contact.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto">
                     <div class="text-center">
                         <i class="fa-solid fa-circle-question pr-2"></i>
@@ -102,9 +109,9 @@
         </div>
 
         <!-- Content Section -->
-            <div class="flex-1 bg-gray-50 px-6 py-8 ml-64 mt-16 mx-auto w-2/3 min-h-screen flex flex-col">
-                <?= $output ?>
-            </div>
+        <div class="flex-1 bg-gray-50 px-6 py-8 ml-64 mt-16 mx-auto w-2/3 min-h-screen flex flex-col">
+            <?= $output ?>
+        </div>
     </div>
     <footer class="bg-gray-800 text-white py-6 sticky z-20">
         <div class="container mx-auto px-4">

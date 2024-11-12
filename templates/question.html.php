@@ -34,18 +34,24 @@
         </a>
     <?php endif; ?>
     
-    <!-- Like and Comment Counts -->
-    <div class="mt-4 flex space-x-8 items-center">
-        <form method="POST">
-            <button type="submit" name="like" class="flex items-center space-x-1 text-red-500">
-                <i class="fa-solid fa-heart"></i>
-                <span><?= htmlspecialchars($question['number_like']) ?> Likes</span>
+    <!-- Reaction Counts -->
+    <form method="POST">
+        <div class="mt-4 ml-12 flex space-x-8 items-center scale-110">
+            <form method="POST">
+                <button type="submit" name="like" class="flex items-center space-x-1 text-red-500">
+                    <i class="fa-solid fa-heart"></i>
+                    <span><?= htmlspecialchars($question['number_like']) ?> Likes</span>
+                </button>
+            </form>
+            <div class="flex items-center space-x-1 text-blue-500">
+                <i class="fa-solid fa-comment"></i>
+                <span><?= htmlspecialchars($question['number_comment']) ?> Comments</span>
+            </div>
+            <button type="submit" name="save" class="flex items-center space-x-1 text-yellow-500">
+                <i class="fa-solid fa-bookmark"></i>
+                <span><?= htmlspecialchars($question['number_save']) ?> Save</span>
             </button>
         </form>
-        <div class="flex items-center space-x-1 text-blue-500">
-            <i class="fa-solid fa-comment"></i>
-            <span><?= htmlspecialchars($question['number_comment']) ?> Comments</span>
-        </div>
     </div>
     <p class="text-sm text-gray-500">Posted by <?= htmlspecialchars($question['username']) ?> on <?= htmlspecialchars($question['questiondate']) ?></p>
     <h3 class="text-lg font-bold">Answers</h3>
@@ -100,7 +106,7 @@
                     <?php endif; ?>
 
                     <!-- Options Dropdown (Edit/Delete) -->
-                    <?php if ($isLoggedIn && $comment['user_id'] == $user_id): ?>
+                    <?php if ($isLoggedIn && $comment['user_id'] == $user_id && $role == 2): ?>
                         <div class="absolute top-0 right-0 m-4">
                             <button id="optionsButton-<?= $comment['commentid'] ?>" class="text-gray-600 text-2xl font-bold pr-2 focus:outline-none">&#8230;</button>
                             <div id="optionsMenu-<?= $comment['commentid'] ?>" class="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg hidden">

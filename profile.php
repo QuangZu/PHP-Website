@@ -32,6 +32,17 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['user_id' => $user_id]);
 $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Fetch saved questions for the user
+$sql = 'SELECT q.questionid, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, q.questiondate, q.number_like, q.number_comment, m.module_name
+        FROM question q
+        LEFT JOIN module m ON q.module_id = m.module_id
+        INNER JOIN question_saves qs ON q.questionid = qs.questionid
+        WHERE qs.user_id = :user_id
+        ORDER BY q.questiondate DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['user_id' => $user_id]);
+$savedQuestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Handle profile image upload
 if (isset($_POST['upload_image'])) {
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
@@ -128,11 +139,6 @@ if (isset($_POST['delete_account']) && $isLoggedIn) {
         $error = "There was an error deleting your account: " . $e->getMessage();
     }
 }
-
-$sql = "SELECT questionid, questiontitle FROM question WHERE user_id = :user_id";
-$stmt = $pdo->prepare($sql);
-$stmt->execute(['user_id' => $user_id]);
-$userQuestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ob_start();
 include 'templates/profile.html.php';

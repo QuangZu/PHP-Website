@@ -4,7 +4,7 @@
     <div class="bg-white dark:bg-slate-800 p-8 pl-10 rounded-lg shadow-lg">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-6">
-                <?php if (isset($user['image'])): ?>
+                <?php if (!empty($user['image'])): ?>
                     <img src="<?= htmlspecialchars($user['image']) ?>" class="w-24 h-24 rounded-full object-cover">
                 <?php else: ?>
                     <span class="p-1">
@@ -41,6 +41,52 @@
         <div class="mt-6">
             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
             <p><strong>Date Joined:</strong> <?= htmlspecialchars($user['date']) ?></p>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 p-8 pl-10 rounded-lg shadow-lg space-y-3">
+        <div class="inline-flex">
+            <i class="fa-solid fa-bookmark pt-2 pr-3 scale-110 text-yellow-500"></i>
+            <p class="flex items-center justify-between text-xl font-bold">Your Saved Posts</p>
+        </div>
+        <div class="mt-4 pt-4 border-y-2">
+            <?php if (!empty($savedQuestions)): ?>
+                <?php foreach ($savedQuestions as $post): ?>
+                    <a href="question.php?id=<?= $post['questionid'] ?>">
+                        <div class="bg-white rounded-lg p-5 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 space-y-2 mb-2">
+                            <div class="inline-flex items-center px-2 pb-1 pt-0.5 text-white bg-orange-300 text-sm rounded-full">
+                                <?= htmlspecialchars($post['module_name'] ?? '' )?>
+                            </div>
+                            <h2 class="font-semibold text-xl"><?= htmlspecialchars($post['questiontitle']) ?></h2>
+                            <?php if (!empty($post['questiontext'])): ?>
+                                <p class="text-gray-700 mt-2"><?= htmlspecialchars($post['questiontext']) ?></p>
+                            <?php elseif (!empty($post['questionimage'])): ?>
+                                <img src="<?= htmlspecialchars($post['questionimage']) ?>" alt="Post Image" class="w-full h-auto rounded-lg mt-2">
+                            <?php elseif (!empty($post['questionlink'])): ?>
+                                <a href="<?= htmlspecialchars($post['questionlink']) ?>" class="text-blue-500 hover:underline mt-2 block">
+                                    <?= htmlspecialchars($post['questionlink']) ?>
+                                </a>
+                            <?php endif; ?>
+
+                            <div class="mt-4 flex space-x-8 items-center">
+                                <div class="flex items-center space-x-1 text-red-500">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span><?= htmlspecialchars($post['number_like']) ?> Likes</span>
+                                </div>
+                                <div class="flex items-center space-x-1 text-blue-500">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span><?= htmlspecialchars($post['number_comment']) ?> Comments</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                <?= htmlspecialchars($post['questiondate']) ?>
+                            </p>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-gray-500 mt-4">You haven’t saved any posts yet.</p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -123,4 +169,4 @@
     <?php endif; ?>
 </div>
 
-<script src="js/profile.js"></script>
+<script src="js/modal.js"></script>

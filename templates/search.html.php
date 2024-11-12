@@ -41,14 +41,20 @@
                     <p class="text-slate-400 dark:text-slate-500 mt-2 text-xs">
                         Posted on: <?= htmlspecialchars($question['questiondate']) ?>
                     </p>
-                    <div class="mt-4 flex space-x-4 items-center">
+                    <div class="mt-4 ml-12 flex space-x-8 items-center scale-110">
                         <button type="submit" class="flex items-center space-x-1 text-red-500">
                             <i class="fa-solid fa-heart"></i>
                             <span class="like-count"><?= htmlspecialchars($question['number_like']) ?></span>   
                         </button>
+
                         <button class="flex items-center space-x-1 text-blue-500">
                             <i class="fa-solid fa-comment"></i>
-                            <span><?= $question['number_comment'] ?? 0 ?></span>
+                            <span><?= htmlspecialchars($question['number_comment']) ?></span>
+                        </button>
+
+                        <button type="submit" class="flex items-center space-x-1 text-yellow-500">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <span><?= htmlspecialchars($question['number_save']) ?></span>
                         </button>
                     </div>
                 </div>

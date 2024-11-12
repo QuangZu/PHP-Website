@@ -6,7 +6,7 @@
             exit;
         }?>
         <a href="question.php?id=<?= $question['questionid'] ?>" class="w-3/4">
-            <div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+            <div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
                 <div class="flex items-center pb-4">
                     <!-- User Icon -->
                     <span class="inline-flex items-center justify-center p-1 bg-white rounded-full shadow-md">
@@ -50,8 +50,8 @@
                     Posted on: <?= htmlspecialchars($question['questiondate']) ?>
                 </p>
 
-                <!-- Like and Comment Section -->
-                <div class="mt-4 flex space-x-4 items-center">
+                <!-- Reaction -->
+                <div class="mt-4 ml-12 flex space-x-8 items-center scale-110">
                     <button type="submit" class="flex items-center space-x-1 text-red-500">
                         <i class="fa-solid fa-heart"></i>
                         <span class="like-count"><?= htmlspecialchars($question['number_like']) ?></span>   
@@ -59,7 +59,11 @@
 
                     <button class="flex items-center space-x-1 text-blue-500">
                         <i class="fa-solid fa-comment"></i>
-                        <span><?= $question['number_comment'] ?? 0 ?></span>
+                        <span><?= htmlspecialchars($question['number_comment']) ?></span>
+                    </button>
+                    <button type="submit" class="flex items-center space-x-1 text-yellow-500">
+                        <i class="fa-solid fa-bookmark"></i>
+                        <span><?= htmlspecialchars($question['number_save']) ?></span>
                     </button>
                 </div>
                 <script src = "js/questions.js"></script>

@@ -9,7 +9,7 @@ $role = $_SESSION['role'] ?? '';
 $image = $_SESSION['image'] ?? '';
 $moduleName = $_GET['module'] ?? '';
 
-$sql = 'SELECT q.questionid, q.user_id, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, q.questiondate, q.number_like, q.number_comment
+$sql = 'SELECT q.questionid, q.user_id, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save
         FROM question q
         LEFT JOIN user u ON q.user_id = u.user_id
         INNER JOIN module m ON q.module_id = m.module_id

@@ -12,7 +12,7 @@ $questions = [];
 if ($searchQuery) {
     $stmt = $pdo->prepare("
         SELECT q.questionid, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, 
-               q.questionlink, q.questiondate, q.number_like, q.number_comment, m.module_name
+               q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
         FROM question q
         LEFT JOIN user u ON q.user_id = u.user_id
         LEFT JOIN module m ON q.module_id = m.module_id

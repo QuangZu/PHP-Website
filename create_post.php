@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $selectedModuleId = $_POST['selectedModuleId'] ?? null;
     $postType = $_POST['postType'] ?? 'text';
     $uploadedImage = null;
-    $questionlink = '';
 
     if ($postType === 'link') {
         $questionlink = $questiontext;
