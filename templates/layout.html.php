@@ -69,16 +69,16 @@
             <!-- Module -->
             <a href="modules.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                 <div class="text-center ">
-                    <i class="fa-solid fa-bookmark pl-0.5 pr-2.5"></i>
-                    <span class="text-black text-l font-medium">Module</span>
+                    <i class="fa-solid fa-book pl-0.5"></i>
+                    <span class="text-black text-l font-medium ml-2.5">Module</span>
                 </div>
             </a> 
-            <?php if ($isLoggedIn && $role == 2): ?> 
+            <?php if ($isLoggedIn && $role == 2): ?>
                 <!-- Admin Post -->
                 <a href="my_post.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                     <div class="text-center">
-                        <i class="fa-solid fa-circle-user pr-2"></i>
-                        <span class="text-black text-l font-medium">Post</span>
+                        <i class="fa-solid fa-message pl-0.5"></i>
+                        <span class="text-black text-l font-medium ml-2.5">Post</span>
                     </div>
                 </a>
 
@@ -93,15 +93,15 @@
                 <!-- Post -->
                 <a href="my_post.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                     <div class="text-center">
-                        <i class="fa-solid fa-circle-user pr-2"></i>
-                        <span class="text-black text-l font-medium">My Post</span>
+                        <i class="fa-solid fa-message pl-0.5 pr-2"></i>
+                        <span class="text-black text-l font-medium ml-0.5">My Post</span>
                     </div>
                 </a>
                 <!-- Contact -->
                 <a href="contact.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto">
                     <div class="text-center">
-                        <i class="fa-solid fa-circle-question pr-2"></i>
-                        <span class="text-black text-l font-medium">Contact</span>
+                        <i class="fa-solid fa-circle-question pl-0.5"></i>
+                        <span class="text-black text-l font-medium ml-2">Contact</span>
                     </div>
                 </a>
             <?php endif; ?>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="w-full md:w-1/3 mb-4">
                     <h5 class="text-lg font-semibold">Contact Me</h5>
-                    <p class="text-sm">Email: minhquangvuxd@gmail.com</p>
+                    <p class="text-sm">Email: quangvmgch230200@gmail.com</p>
                     <p class="text-sm">Phone: (+84) 456-789-012</p>
                 </div>
             </div>

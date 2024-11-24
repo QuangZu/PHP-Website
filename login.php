@@ -3,7 +3,7 @@ session_start();
 $error = '';
 
 try {
-    include 'includes/database_connection.php';
+    include 'includes/DatabaseConnection.php';
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];

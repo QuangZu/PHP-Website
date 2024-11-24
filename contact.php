@@ -1,6 +1,7 @@
 <?php
 session_start();
-include 'includes/database_connection.php';
+include 'includes/DatabaseConnection.php';
+include 'includes/DatabaseFunctions.php';
 
 require 'PHPMailer-6.9.2/src/PHPMailer.php';
 require 'PHPMailer-6.9.2/src/SMTP.php';

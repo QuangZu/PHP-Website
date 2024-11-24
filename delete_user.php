@@ -1,6 +1,7 @@
 <?php
 session_start();
-include 'includes/database_connection.php';
+include 'includes/DatabaseConnection.php';
+include 'includes/DatabaseFunctions.php';
 
 $error = '';
 
@@ -12,14 +13,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
 if (isset($_GET['id'])) {
     $user_id = (int)$_GET['id'];
 
-    $stmt = $pdo->prepare('DELETE FROM user WHERE user_id = :user_id AND role = 1');
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-
-    if ($stmt->execute()) {
+    try {
+        deleteUser($pdo, $user_id);
         header("Location: users.php");
         exit;
-    } else {
-        $error = "Error: Could not delete user.";
+    } catch (Exception $e) {
+        $error = "Error: " . $e->getMessage();
     }
 } else {
     $error = "Invalid request.";

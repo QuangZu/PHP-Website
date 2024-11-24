@@ -1,6 +1,7 @@
 <?php
 session_start();
-include 'includes/database_connection.php';
+include 'includes/DatabaseConnection.php';
+include 'includes/DatabaseFunctions.php';
 
 $searchQuery = $_GET['query'] ?? '';
 $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
@@ -10,17 +11,7 @@ $role = $_SESSION['role'] ?? '';
 
 $questions = [];
 if ($searchQuery) {
-    $stmt = $pdo->prepare("
-        SELECT q.questionid, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, 
-               q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
-        FROM question q
-        LEFT JOIN user u ON q.user_id = u.user_id
-        LEFT JOIN module m ON q.module_id = m.module_id
-        WHERE q.questiontitle LIKE :searchQuery
-        ORDER BY q.questiondate DESC
-    ");
-    $stmt->execute(['searchQuery' => '%' . $searchQuery . '%']);
-    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $questions = searchQuestions($pdo, $searchQuery);
 }
 
 ob_start();

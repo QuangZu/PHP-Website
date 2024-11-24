@@ -101,5 +101,8 @@
         <p class="text-gray-500 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to view your posts.</p>
     <?php endif; ?>
 </div>
+<?php if ($error) {
+    echo '<script>alert("'. $error. '")</script>';
+}?>
 
 <script src="js/my_post.js"></script>

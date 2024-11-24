@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         isset($_POST['password']) && !empty($_POST['password'])
     ) {
         try {
-            include "includes/database_connection.php";
+            include "includes/DatabaseConnection.php";
             
             $username = $_POST['username'];
             $email = $_POST['email'];

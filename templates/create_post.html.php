@@ -8,7 +8,6 @@
 <div class="mx-auto w-4/5">
     <header class="text-2xl font-sans font-bold pl-2 py-5">Create Post</header>
     <form action="create_post.php" method="post" enctype="multipart/form-data">
-        <!-- Hidden input to store the selected post type -->
         <input type="hidden" name="postType" id="postType" value="text">
 
         <!-- Menu options with buttons to set post type -->
@@ -29,12 +28,12 @@
             <input type="hidden" name="selectedModuleId" id="selectedModuleId">
         </div>
 
-        <!-- Tailwind Modal for Module Selection -->
+        <!-- Module Selection -->
         <div id="moduleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
             <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md relative">
                 <h2 class="text-2xl font-bold mb-4">Select a Module</h2>
                 <div id="moduleList" class="space-y-2">
-                    <!-- Module options will be injected here -->
+                    <!-- Module options -->
                 </div>
                 <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                     &times;

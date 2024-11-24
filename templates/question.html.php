@@ -59,13 +59,14 @@
     <?php if ($isLoggedIn): ?>
         <form method="POST" class="mt-4 w-full">
             <div id="commentSection">
-                <textarea id="commentTextarea" name="comment" rows="1" placeholder="Add a comment..." class="w-full p-2 border rounded-2xl resize-none overflow-hidden"></textarea>
+                <textarea id="commentTextarea" name="comment" rows="1" placeholder="Add a comment" class="w-full p-2 border rounded-2xl resize-none overflow-hidden" oninput="autoResize(this)"></textarea>
                 <input type="hidden" name="questionid" value="<?= $question['questionid'] ?>">
                 <div class="flex justify-end">
                     <button id="postButton" type="submit" name="submitComment" class="absolute mt-2 px-4 py-2 bg-blue-500 text-white rounded-full hidden">Comment</button>
                 </div>
             </div>
             <script src="js/question.js"></script>
+            <script src="js/textarea.js"></script>
         </form>
     <?php else: ?>
         <p class="text-gray-500 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to post a comment.</p>
@@ -92,7 +93,7 @@
                     <?php if ($isLoggedIn && $comment['user_id'] == $user_id && isset($_POST['editComment']) && $_POST['comment_id'] == $comment['commentid']): ?>
                         <!-- Edit Comment Form -->
                         <form method="POST" action="question.php?id=<?= $questionId ?>" class="mt-2">
-                            <textarea name="updatedCommentText" rows="2" class="w-full p-2 border rounded-lg resize-none" oninput="autoResize(this)"><?= htmlspecialchars($comment['commenttext']) ?></textarea>
+                            <textarea name="updatedComment" rows="2" class="w-full p-2 border rounded-lg resize-none"><?= htmlspecialchars($comment['commenttext']) ?></textarea>
                             <input type="hidden" name="comment_id" value="<?= $comment['commentid'] ?>">
                             <div class="flex justify-end">
                                 <button type="submit" name="cancelEdit" class="bg-gray-500 text-white rounded-full py-2 px-4 mr-4 mt-2">Cancel</button>
@@ -130,5 +131,7 @@
             <?php endforeach; ?>
         </ul>
     </div>
-    <?= htmlspecialchars($error)?>
-</div>
+    <?php if ($error): ?>
+        <p class="bg-red-100 text-red-700 p-4 rounded-lg"><?= $error ?></p>
+    <?php endif; ?>
+</div>  
