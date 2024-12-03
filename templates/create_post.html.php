@@ -1,10 +1,3 @@
-<div class="pl-8">
-    <a href="my_post.php" class="absolute inline-flex items-center justify-center p-2 bg-indigo-500 rounded-full shadow-lg">
-        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l7-7m0 14l-7-7m0 0h14"></path>
-        </svg>
-    </a>
-</div>
 <div class="mx-auto w-4/5">
     <header class="text-2xl font-sans font-bold pl-2 py-5">Create Post</header>
     <form action="create_post.php" method="post" enctype="multipart/form-data">
@@ -18,7 +11,7 @@
         </div>
 
         <div class="mt-4">
-            <textarea name="questiontitle" rows="2" placeholder="Title" class="w-full p-2 border rounded-2xl resize-none"></textarea>
+            <textarea name="questiontitle" rows="2" placeholder="Title" class="w-full p-2 border rounded-2xl resize-none" oninput="autoResize(this)"></textarea>
         </div>
 
         <div class="mt-4 pl-2">
@@ -42,7 +35,7 @@
         </div>
 
         <div id="textTextarea" class="mt-4">
-            <textarea name="questiontext" rows="3" placeholder="Question" class="w-full p-2 border rounded-2xl resize-none"></textarea>
+            <textarea name="questiontext" rows="3" placeholder="Question" class="w-full p-2 border rounded-2xl resize-none" oninput="autoResize(this)"></textarea>
         </div>
 
         <div id="imageTextarea" class="mt-4 hidden">
@@ -50,16 +43,21 @@
         </div>
 
         <div id="linkTextarea" class="mt-4 hidden">
-            <input type="text" name="questionlink" placeholder="Add a link" class="w-full p-2 border rounded-2xl">
+            <input type="text" name="questionlink" placeholder="Add a link" class="w-full p-2 border rounded-2xl" oninput="autoResize(this)">
         </div>
 
         <?= "<p style='color: red;'>$error</p>";?>
 
         <div class="flex justify-end space-x-5">
-            <a href="my_post.php" class="bg-red-500 text-white rounded-full px-4 py-2 mt-4">Cancel</a>
+            <?php if ($isLoggedIn && $role == 2): ?>
+                <a href="admin/my_post.php" class="bg-red-500 text-white rounded-full px-4 py-2 mt-4">Cancel</a>
+            <?php else:?>
+                <a href="my_post.php" class="bg-red-500 text-white rounded-full px-4 py-2 mt-4">Cancel</a>
+            <?php endif;?>
             <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 py-2 mt-4">Add</button>
         </div>
     </form>
 </div>
 
 <script src="js/create_post.js"></script>
+<script src="js/text_area.js"></script>

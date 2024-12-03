@@ -2,11 +2,7 @@
 session_start();
 include 'includes/DatabaseConnection.php';
 include 'includes/DatabaseFunctions.php';
-
-$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
-$username = $_SESSION['username'] ?? '';
-$user_id = $_SESSION['user_id'] ?? null;
-$role = $_SESSION['role'] ?? null;
+require_once 'includes/session.php';
 
 if (!$user_id) {
     header("Location: login.php");
@@ -99,4 +95,3 @@ ob_start();
 include 'templates/profile.html.php';
 $output = ob_get_clean();
 include 'templates/layout.html.php';
-?>

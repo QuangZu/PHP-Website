@@ -21,6 +21,6 @@
         <a href="login.php" class="text-blue-400 pl-2">Login</a> to send a message.
     <?php endif?>
 
-    <?= htmlspecialchars($success), htmlspecialchars($error) ?>
+    <?= $success, $error ?>
     <script src="js/textarea.js"></script>
 </div>

@@ -1,8 +1,8 @@
 <?php
 session_start();
-include 'includes/DatabaseConnection.php';
-include 'includes/DatabaseFunctions.php';
-require_once 'includes/session.php';
+include '../includes/DatabaseConnection.php';
+include '../includes/DatabaseFunctions.php';
+require_once '../includes/session.php';
 
 if (isset($_GET['id']) && isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
     $questionid = $_GET['id'];
@@ -19,6 +19,6 @@ if (isset($_GET['id']) && isset($_SESSION['user_id']) && isset($_SESSION['role']
         exit();
     }
 } else {
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }

@@ -27,7 +27,7 @@
     <?php if (!empty($question['questiontext'])): ?>
         <p class="mt-2"><?= htmlspecialchars($question['questiontext']) ?></p>
     <?php elseif (!empty($question['questionimage'])): ?>
-        <img src="<?= htmlspecialchars($question['questionimage']) ?>" alt="Question Image" class="mt-2 w-full h-auto">
+        <img src="ques_uploads/<?= htmlspecialchars($question['questionimage']) ?>" alt="Question Image" class="mt-2 w-full h-auto">
     <?php elseif (!empty($question['questionlink'])): ?>
         <a href="<?= htmlspecialchars($question['questionlink']) ?>" class="text-blue-500 hover:underline mt-2">
             <?= htmlspecialchars($question['questionlink']) ?>

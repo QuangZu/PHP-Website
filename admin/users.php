@@ -2,12 +2,8 @@
 session_start();
 include '../includes/DatabaseConnection.php';
 include '../includes/DatabaseFunctions.php';
+require_once '../includes/session.php';
 
-$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
-$username = $_SESSION['username'] ?? '';
-$user_id = $_SESSION['user_id'] ?? null;
-$role = $_SESSION['role'] ?? null;
-$image = $_SESSION['image'] ?? '';
 $error = '';
 
 if (!$isLoggedIn || $role != 2) {
@@ -20,7 +16,7 @@ $users = getAllUsers($pdo);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
     $userId = $_POST['user_id'];
     if (deleteUser($pdo, $userId)) {
-        header("Location: ../users.php");
+        header("Location: users.php");
         exit;
     } else {
         $error = "Error deleting user.";
@@ -28,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
 }
 
 ob_start();
-include '../templates/users.html.php';
+include '../templates/admin_users.html.php';
 $output = ob_get_clean();
-include '../templates/layout.html.php';
+include '../templates/admin_layout.html.php';
 ?>

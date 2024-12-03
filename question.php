@@ -2,13 +2,8 @@
 session_start();
 include 'includes/DatabaseConnection.php';
 include 'includes/DatabaseFunctions.php';
+require_once 'includes/session.php';
 
-$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
-$questionId = $_GET['id'] ?? null;
-$username = $_SESSION['username'] ?? '';
-$user_id = $_SESSION['user_id'] ?? null;
-$role = $_SESSION['role'] ?? '';
-$image = $_SESSION['image'] ?? '';
 $error = '';
 
 // Fetch question details
@@ -65,9 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteComment']) && $i
 // Fetch comments
 $comments = getCommentsByQuestion($pdo, $questionId);
 
-$title = htmlspecialchars($question['questiontitle']);
 ob_start();
 include 'templates/question.html.php';
 $output = ob_get_clean();
 include 'templates/layout.html.php';
-?>

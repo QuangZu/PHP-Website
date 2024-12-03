@@ -1,12 +1,13 @@
 <?php
 session_start();
-include 'includes/DatabaseConnection.php';
-include 'includes/DatabaseFunctions.php';
+include '../includes/DatabaseConnection.php';
+include '../includes/DatabaseFunctions.php';
+require_once '../includes/session.php';
 
 $error = '';
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 

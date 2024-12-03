@@ -2,13 +2,8 @@
 session_start();
 include 'includes/DatabaseConnection.php';
 include 'includes/DatabaseFunctions.php';
-require "login/check.php";
+require_once 'includes/session.php';
 
-$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
-$username = $_SESSION['username'] ?? '';
-$user_id = $_SESSION['user_id'] ?? null;
-$role = $_SESSION['role'] ?? '';
-$image = $_SESSION['image'] ?? '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

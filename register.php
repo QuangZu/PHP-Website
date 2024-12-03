@@ -47,4 +47,3 @@ ob_start();
 include 'templates/register.html.php';
 $output = ob_get_clean();
 include 'templates/welcome.html.php';
-?>

@@ -26,4 +26,4 @@
 </div>
 
 <?= htmlspecialchars($error) ?>
-<script src="js/delete_user.js"> </script>
+<script src="../js/delete_user.js"> </script>

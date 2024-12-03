@@ -1,4 +1,6 @@
 <?php
+require_once 'session.php';
+
 // Executes a SQL query with optional parameters
 function query($pdo, $sql, $parameters = []) {
     $query = $pdo->prepare($sql);
