@@ -8,14 +8,10 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $questiontitle = $_POST['questiontitle'] ?? '';
-    $questiontext = $_POST['questiontext'] ?? '';
+    $questiontext = $_POST['questiontext'] ?? null;
     $selectedModuleId = $_POST['selectedModuleId'] ?? null;
     $postType = $_POST['postType'] ?? 'text';
     $uploadedImage = null;
-
-    if ($postType === 'link') {
-        $questionlink = $questiontext;
-    }
 
     if ($postType === 'image' && isset($_FILES['questionimage']) && $_FILES['questionimage']['error'] === UPLOAD_ERR_OK) {
         $uploadedImage = uploadImage($pdo, $_FILES['questionimage'], 'ques_uploads/');
@@ -28,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Please complete all required fields.";
     } else {
         try {
-            insertQuestion($pdo, $user_id, $questiontitle, $questiontext, $uploadedImage, $questionlink, $selectedModuleId);
+            insertQuestion($pdo, $user_id, $questiontitle, $questiontext, $uploadedImage, $selectedModuleId);
 
             header('Location: questions.php');
             exit();
@@ -41,5 +37,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ob_start();
 include 'templates/create_post.html.php';
 $output = ob_get_clean();
-include 'templates/layout.html.php';
+include 'templates/layout.html.php';    
 ?>

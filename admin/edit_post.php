@@ -1,18 +1,26 @@
 <?php
 session_start();
-include 'includes/DatabaseConnection.php';
-include 'includes/DatabaseFunctions.php';
-require_once 'includes/session.php';
+include '../includes/DatabaseConnection.php';
+include '../includes/DatabaseFunctions.php';
+require_once '../includes/session.php';
 
-// Ensure user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
+// Handle GET request to fetch the post
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (!isset($_GET['id'])) {
+        header('Location: my_post.php');
+        exit();
+    }
+
+    $questionid = $_GET['id'];
+    $post = getQuestionById($pdo, $questionid, $user_id);
+
+    if (!$post) {
+        header('Location: my_post.php');
+        exit();
+    }
 }
 
-$user_id = $_SESSION['user_id'];
-
-// Process POST request for updating the post
+// Handle POST request to update the question
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $questionid = $_POST['questionid'];
     $questiontitle = trim($_POST['questiontitle']);
@@ -21,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle image upload if a new image is provided
     if (!empty($_FILES['new_image']['name'])) {
-        $targetDir = "ques_uploads/";
+        $targetDir = "../ques_uploads/";
         $targetFile = $targetDir . basename($_FILES['new_image']['name']);
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
@@ -33,35 +41,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Move the uploaded file
         if (move_uploaded_file($_FILES['new_image']['tmp_name'], $targetFile)) {
-            $questionimage = basename($_FILES['new_image']['name']);
+            $questionimage = htmlspecialchars(basename($_FILES['new_image']['name']), ENT_QUOTES, 'UTF-8');
         } else {
             die("There was an error uploading the file.");
         }
     }
 
-    // Update the post in the database
+    // Update the question in the database
     updateQuestion($pdo, $questionid, $questiontitle, $questiontext, $questionimage, $user_id);
+
+    // Redirect after successful update
     header('Location: my_post.php');
     exit();
 }
 
-// Process GET request to render the edit page
-if (isset($_GET['id'])) {
-    $questionid = $_GET['id'];
-    $post = getQuestionById($pdo, $questionid, $user_id);
-
-    if (!$post) {
-        header('Location: my_post.php');
-        exit();
-    }
-} else {
-    header('Location: my_post.php');
-    exit();
-}
-
-// Render the edit page
 ob_start();
-include 'templates/edit_post.html.php';
+include '../templates/edit_post.html.php';
 $output = ob_get_clean();
-include 'templates/layout.html.php';
+include '../templates/admin_layout.html.php';
 ?>

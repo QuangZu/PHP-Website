@@ -7,7 +7,6 @@
         <div id="menu" class="flex space-x-4 mb-4">
             <button type="button" id="textOption" class="px-4 py-2 border-b-2 border-gray-50 hover:border-blue-500 font-semibold">Text</button>
             <button type="button" id="imageOption" class="px-4 py-2 border-b-2 border-gray-50 hover:border-blue-500 font-semibold">Image</button>
-            <button type="button" id="linkOption" class="px-4 py-2 border-b-2 border-gray-50 hover:border-blue-500 font-semibold">Link</button>
         </div>
 
         <div class="mt-4">
@@ -42,10 +41,6 @@
             <input type="file" name="questionimage" class="w-full p-2 border rounded-2xl">
         </div>
 
-        <div id="linkTextarea" class="mt-4 hidden">
-            <input type="text" name="questionlink" placeholder="Add a link" class="w-full p-2 border rounded-2xl" oninput="autoResize(this)">
-        </div>
-
         <?= "<p style='color: red;'>$error</p>";?>
 
         <div class="flex justify-end space-x-5">
@@ -60,4 +55,4 @@
 </div>
 
 <script src="js/create_post.js"></script>
-<script src="js/text_area.js"></script>
+<script src="js/textarea.js"></script>

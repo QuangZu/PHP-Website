@@ -31,7 +31,7 @@ function getQuestionById($pdo, $questionid, $user_id) {
 
 function getQuestionsByModule($pdo, $moduleName) {
     $query = 'SELECT q.questionid, q.user_id, u.username, u.image, q.questiontitle, q.questiontext, 
-                   q.questionimage, q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save
+                   q.questionimage, q.questiondate, q.number_like, q.number_comment, q.number_save
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
             INNER JOIN module m ON q.module_id = m.module_id
@@ -43,7 +43,7 @@ function getQuestionsByModule($pdo, $moduleName) {
 
 function getQuestionDetails($pdo, $questionid) {
     $query = 'SELECT q.questionid, u.username, u.image, u.role, q.questiontitle, q.questiontext, q.questionimage, 
-                   q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save
+                     q.questiondate, q.number_like, q.number_comment, q.number_save
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
             LEFT JOIN module m ON q.module_id = m.module_id
@@ -53,7 +53,7 @@ function getQuestionDetails($pdo, $questionid) {
 
 function getAllQuestions($pdo) {
     $query = 'SELECT q.questionid, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, 
-                   q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
+                     q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
             LEFT JOIN module m ON q.module_id = m.module_id
@@ -145,30 +145,66 @@ function getAllUsers($pdo) {
 
 // Fetch all modules
 function getAllModules($pdo) {
-    $query = 'SELECT * FROM module';
-    return query($pdo, $query)->fetchAll(PDO::FETCH_ASSOC);
+    $sql = 'SELECT module_id, module_name FROM module';
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getModulesWithQuestions($pdo) {
-    $query = 'SELECT m.module_name, q.questionid, q.user_id, u.username, q.questiontitle, q.questiontext, 
-                   q.questionimage, q.questionlink, q.questiondate, q.number_like, q.number_comment
-            FROM module m
-            LEFT JOIN question q ON m.module_id = q.module_id
-            LEFT JOIN user u ON q.user_id = u.user_id
-            ORDER BY m.module_name, q.questiondate DESC';
-    $modulesWithQuestions = query($pdo, $query)->fetchAll(PDO::FETCH_ASSOC);
+// Fetch a single module by ID
+function getModule($pdo, $module_id) {
+    $parameters = [':module_id' => $module_id];
+    $query = query($pdo, 'SELECT * FROM module WHERE module_id = :module_id', $parameters);
+    return $query->fetch();
+}
+// Function to get module by ID
+function getModuleById($pdo, $module_id) {
+    $sql = "SELECT * FROM module WHERE module_id = :module_id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':module_id', $module_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
-    $modules = [];
-    foreach ($modulesWithQuestions as $item) {
-        $moduleName = $item['module_name'];
-        $modules[$moduleName][] = $item;
+function getModulesWithQuestions($pdo, $module_id = null) {
+    $query = 'SELECT m.*, q.* 
+              FROM module m
+              LEFT JOIN question q ON m.module_id = q.module_id';
+    if ($module_id) {
+        $query .= ' WHERE m.module_id = :module_id';
+        $parameters = [':module_id' => $module_id];
+    } else {
+        $parameters = [];
     }
 
+    $results = query($pdo, $query, $parameters)->fetchAll(PDO::FETCH_ASSOC);
+    if (!$results) {
+        return [];
+    }
+
+    $modules = [];
+    foreach ($results as $row) {
+        $modules[$row['module_name']][] = $row;
+    }
     return $modules;
 }
 
+// Add module
+function addModule($pdo, $moduleName) {
+    $query = 'INSERT INTO module (module_name) VALUES (:module_name)';
+    $parameters = [':module_name' => $moduleName,];
+    query($pdo, $query, $parameters);
+}
+
+// Delete module
+function deleteModule($pdo, $module_id) {
+    $parameters = [':module_id' => $module_id];
+    query($pdo, 'DELETE FROM question WHERE module_id = :module_id', $parameters);
+    query($pdo, 'DELETE FROM module WHERE module_id = :module_id', $parameters);
+    return true;
+}
+
 function getUserPosts($pdo, $user_id) {
-    $query = 'SELECT q.questionid, u.username, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, 
+    $query = 'SELECT q.questionid, u.username, q.questiontitle, q.questiontext, q.questionimage, 
                    q.questiondate, q.number_like, q.number_comment, q.number_save, COALESCE(m.module_name, "Unknown Module") AS module_name
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
@@ -179,7 +215,7 @@ function getUserPosts($pdo, $user_id) {
 }
 
 function getOtherPosts($pdo, $user_id) {
-    $query = 'SELECT q.questionid, u.username, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, 
+    $query = 'SELECT q.questionid, u.username, q.questiontitle, q.questiontext, q.questionimage, 
                    q.questiondate, q.number_like, q.number_comment, q.number_save, COALESCE(m.module_name, "Unknown Module") AS module_name
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
@@ -190,7 +226,7 @@ function getOtherPosts($pdo, $user_id) {
 }
 
 function getUserQuestions($pdo, $user_id) {
-    $query = 'SELECT q.questionid, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, 
+    $query = 'SELECT q.questionid, q.questiontitle, q.questiontext, q.questionimage, 
                    q.questiondate, q.number_like, q.number_comment, m.module_name
             FROM question q
             LEFT JOIN module m ON q.module_id = m.module_id
@@ -200,7 +236,7 @@ function getUserQuestions($pdo, $user_id) {
 }
 
 function getUserSavedQuestions($pdo, $user_id) {
-    $query = 'SELECT q.questionid, q.questiontitle, q.questiontext, q.questionimage, q.questionlink, 
+    $query = 'SELECT q.questionid, q.questiontitle, q.questiontext, q.questionimage, 
                    q.questiondate, q.number_like, q.number_comment, m.module_name
             FROM question q
             LEFT JOIN module m ON q.module_id = m.module_id
@@ -208,6 +244,18 @@ function getUserSavedQuestions($pdo, $user_id) {
             WHERE qs.user_id = :user_id
             ORDER BY q.questiondate DESC';
     return query($pdo, $query, [':user_id' => $user_id])->fetchAll();
+}
+
+function updateModuleName($pdo, $module_id, $newModuleName) {
+    $sql = "UPDATE module SET module_name = :module_name WHERE module_id = :module_id";
+    $stmt = $pdo->prepare($sql);
+
+    // Bind parameters to prevent SQL injection
+    $stmt->bindParam(':module_name', $newModuleName, PDO::PARAM_STR);
+    $stmt->bindParam(':module_id', $module_id, PDO::PARAM_INT);
+
+    // Execute the query
+    return $stmt->execute();
 }
 
 function updateUserImage($pdo, $user_id, $imageName) {
@@ -225,20 +273,6 @@ function updateUserEmail($pdo, $user_id, $newEmail) {
 function updateUserPassword($pdo, $user_id, $newPassword) {
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
     query($pdo, 'UPDATE user SET password = :password WHERE user_id = :user_id', [':password' => $hashedPassword, ':user_id' => $user_id]);
-}
-
-function deleteUserAccount($pdo, $user_id) {
-    try {
-        $pdo->beginTransaction();
-        query($pdo, 'DELETE FROM question WHERE user_id = :user_id', [':user_id' => $user_id]);
-        query($pdo, 'DELETE FROM comment WHERE user_id = :user_id', [':user_id' => $user_id]);
-        query($pdo, 'DELETE FROM user WHERE user_id = :user_id', [':user_id' => $user_id]);
-        $pdo->commit();
-        return true;
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        return false;
-    }
 }
 
 function uploadImage($pdo, $file, $targetDir, $updateQuery = null, $updateParams = [], $currentImagePath = null) {
@@ -281,29 +315,27 @@ function deleteUser($pdo, $user_id) {
 }
 
 // Insert a new question
-function insertQuestion($pdo, $user_id, $questiontitle, $questiontext, $questionimage, $questionlink, $module_id) {
-    $query = 'INSERT INTO question (user_id, questiontitle, questiontext, questionimage, questionlink, questiondate, module_id)
-              VALUES (:user_id, :questiontitle, :questiontext, :questionimage, :questionlink, NOW(), :module_id)';
+function insertQuestion($pdo, $user_id, $questiontitle, $questiontext, $questionimage, $module_id) {
+    $query = 'INSERT INTO question (user_id, questiontitle, questiontext, questionimage, questiondate, module_id)
+              VALUES (:user_id, :questiontitle, :questiontext, :questionimage, NOW(), :module_id)';
     $parameters = [
         ':user_id' => $user_id,
         ':questiontitle' => $questiontitle,
         ':questiontext' => $questiontext,
         ':questionimage' => $questionimage,
-        ':questionlink' => $questionlink,
         ':module_id' => $module_id
     ];
     query($pdo, $query, $parameters);
 }
 
 // Update a question's information
-function updateQuestion($pdo, $questionid, $questiontitle, $questiontext, $questionimage, $questionlink, $user_id) {
-    $query = 'UPDATE question SET questiontitle = :questiontitle, questiontext = :questiontext, questionimage = :questionimage, 
-              questionlink = :questionlink WHERE questionid = :questionid AND user_id = :user_id';
+function updateQuestion($pdo, $questionid, $questiontitle, $questiontext, $questionimage, $user_id) {
+    $query = 'UPDATE question SET questiontitle = :questiontitle, questiontext = :questiontext, questionimage = :questionimage
+            WHERE questionid = :questionid AND user_id = :user_id';
     $parameters = [
         ':questiontitle' => $questiontitle,
         ':questiontext' => $questiontext,
         ':questionimage' => $questionimage,
-        ':questionlink' => $questionlink,
         ':questionid' => $questionid,
         ':user_id' => $user_id
     ];
@@ -343,7 +375,7 @@ function updateComment($pdo, $commentID, $commentText) {
 // Search questions
 function searchQuestions($pdo, $searchQuery) {
     $query = "SELECT q.questionid, u.username, u.image, q.questiontitle, q.questiontext, q.questionimage, 
-                   q.questionlink, q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
+                     q.questiondate, q.number_like, q.number_comment, q.number_save, m.module_name
             FROM question q
             LEFT JOIN user u ON q.user_id = u.user_id
             LEFT JOIN module m ON q.module_id = m.module_id

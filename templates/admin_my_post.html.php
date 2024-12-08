@@ -39,8 +39,9 @@
                         <div class="absolute top-0 right-0 m-4">
                             <button id="optionsButton-<?= $post['questionid'] ?>" class="text-gray-600 text-2xl font-bold pr-2 focus:outline-none">&#8230;</button>
                             <div id="optionsMenu-<?= $post['questionid'] ?>" class="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg hidden">
-                                <button onclick="editPost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-pen pr-2"></i>Edit</button>
+                                <a href="../edit_post.php?id=<?= $post['questionid'] ?>" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 block">
+                                    <i class="fa-solid fa-pen pr-2"></i>Edit
+                                </a>
                                 <button onclick="deletePost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
                                 <i class="fa-solid fa-trash pr-2"></i>Delete</button>
                             </div>
@@ -103,4 +104,4 @@
     echo '<script>alert("'. $error. '")</script>';
 }?>
 
-<script src="../js/my_post.js"></script>
+<script src="../js/admin_my_post.js"></script>

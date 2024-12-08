@@ -42,7 +42,7 @@
             <!-- User Icon -->
             <a href="../profile.php" class="inline-flex items-center justify-center p-1 bg-white rounded-full shadow-md">
             <?php if (!empty($_SESSION['image'])): ?>
-                <img src="<?= htmlspecialchars( $_SESSION['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
+                <img src="../avatar_uploads/<?= htmlspecialchars( $_SESSION['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
             <?php else: ?>
                 <span class="p-1">
                     <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +67,7 @@
             </a>
 
             <!-- Module -->
-            <a href="../modules.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
+            <a href="modules.php" class="transform hover:scale-105 transition-transform duration-300 hover:bg-gray-100 rounded-full w-full h-10 p-5 flex items-center justify-left mx-auto mb-4">
                 <div class="text-center ">
                     <i class="fa-solid fa-book pl-0.5"></i>
                     <span class="text-black text-l font-medium ml-2.5">Module</span>

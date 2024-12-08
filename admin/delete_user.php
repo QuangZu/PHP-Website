@@ -12,7 +12,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
 }
 
 if (isset($_GET['id'])) {
-    $user_id = (int)$_GET['id'];
+    $user_id = $_GET['id'];
 
     try {
         deleteUser($pdo, $user_id);

@@ -10,4 +10,6 @@ $email = $_SESSION['email'] ?? '';
 $user_id = $_SESSION['user_id'] ?? null;
 $role = $_SESSION['role'] ?? 1;
 $image = $_SESSION['image'] ?? '';
+$module_id = $_SESSION['module_id'] ?? null;
+$module_name = $_SESSION['module_name'] ?? null;
 $moduleName = $_GET['module'] ?? '';

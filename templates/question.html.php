@@ -1,16 +1,16 @@
 <div class="pl-8">
-    <a href="questions.php" class="absolute inline-flex items-center justify-center p-2 bg-indigo-500 rounded-full shadow-lg">
+    <button onclick="history.back()" class="absolute inline-flex items-center justify-center p-2 bg-indigo-500 rounded-full shadow-lg">
         <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l7-7m0 14l-7-7m0 0h14"></path>
         </svg>
-    </a>
+    </button>
 </div>
 <div class="flex flex-col px-32 space-y-5">
     <!-- Question Details -->
     <div class="inline-flex space-x-3">
         <span class="inline-flex items-center justify-center p-1 bg-white rounded-full shadow-md h-10 w-10 scale-150">
             <?php if (!empty($question['image'])): ?>
-                <img src="<?= htmlspecialchars($question['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
+                <img src="avatar_uploads/<?= htmlspecialchars($question['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
             <?php else: ?>
                 <span class="p-1">
                     <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -28,10 +28,6 @@
         <p class="mt-2"><?= htmlspecialchars($question['questiontext']) ?></p>
     <?php elseif (!empty($question['questionimage'])): ?>
         <img src="ques_uploads/<?= htmlspecialchars($question['questionimage']) ?>" alt="Question Image" class="mt-2 w-full h-auto">
-    <?php elseif (!empty($question['questionlink'])): ?>
-        <a href="<?= htmlspecialchars($question['questionlink']) ?>" class="text-blue-500 hover:underline mt-2">
-            <?= htmlspecialchars($question['questionlink']) ?>
-        </a>
     <?php endif; ?>
     
     <!-- Reaction Counts -->
@@ -45,7 +41,7 @@
             </form>
             <div class="flex items-center space-x-1 text-blue-500">
                 <i class="fa-solid fa-comment"></i>
-                <span><?= htmlspecialchars($question['number_comment']) ?> Comments</span>
+                <span><?= htmlspecialchars($question['number_comment']) ?> Answers</span>
             </div>
             <button type="submit" name="save" class="flex items-center space-x-1 text-yellow-500">
                 <i class="fa-solid fa-bookmark"></i>
@@ -62,14 +58,14 @@
                 <textarea id="commentTextarea" name="comment" rows="1" placeholder="Add a comment" class="w-full p-2 border rounded-2xl resize-none overflow-hidden" oninput="autoResize(this)"></textarea>
                 <input type="hidden" name="questionid" value="<?= $question['questionid'] ?>">
                 <div class="flex justify-end">
-                    <button id="postButton" type="submit" name="submitComment" class="absolute mt-2 px-4 py-2 bg-blue-500 text-white rounded-full hidden">Comment</button>
+                    <button id="postButton" type="submit" name="submitComment" class="absolute mt-2 px-4 py-2 bg-blue-500 text-white rounded-full hidden">Answer</button>
                 </div>
             </div>
             <script src="js/question.js"></script>
             <script src="js/textarea.js"></script>
         </form>
     <?php else: ?>
-        <p class="text-gray-500 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to post a comment.</p>
+        <p class="text-gray-500 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to post a answers.</p>
     <?php endif; ?>
 
     <!-- Comments Section -->
@@ -79,7 +75,7 @@
                 <li class="relative py-5 border-b-2 border-gray-100">
                     <div class="inline-flex space-x-2">
                         <?php if (!empty($comment['image'])): ?>
-                            <img src="<?= htmlspecialchars($comment['image']) ?>" alt="Profile Image" class="w-6 h-6 rounded-full object-cover">
+                            <img src="avatar_uploads/<?= htmlspecialchars($comment['image']) ?>" alt="Profile Image" class="w-6 h-6 rounded-full object-cover">
                         <?php else: ?>
                             <span class="p-1">
                                 <svg class="h-4 w-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

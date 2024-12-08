@@ -4,12 +4,9 @@ include '../includes/DatabaseConnection.php';
 include '../includes/DatabaseFunctions.php';
 require_once '../includes/session.php';
 
-$error = '';
-
-$users = getAllUsers($pdo);
+$modules = getModulesWithQuestions($pdo);
 
 ob_start();
-include '../templates/admin_users.html.php';
+include '../templates/admin_modules.html.php';
 $output = ob_get_clean();
 include '../templates/admin_layout.html.php';
-?>

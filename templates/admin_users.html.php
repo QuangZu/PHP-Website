@@ -3,7 +3,7 @@
     <?php foreach ($users as $user): ?>
         <div class="relative transform hover:scale-105 transition-transform duration-300 bg-white dark:bg-slate-800 px-6 py-8 text-xl text-blue-400 ring-1 ring-slate-900/5 shadow-xl border-l-8 border-white hover:border-blue-400 inline-flex">
                 <?php if (!empty($user['image'])): ?>
-                    <img src="<?= htmlspecialchars($user['image']) ?>" class="w-24 h-24 rounded-full object-cover ml-2">
+                    <img src="../avatar_uploads/<?= htmlspecialchars($user['image']) ?>" class="w-24 h-24 rounded-full object-cover ml-2">
                 <?php else: ?>
                     <span class="p-1 ml-2">
                         <svg class="h-24 w-24 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -25,5 +25,5 @@
     <?php endforeach; ?>
 </div>
 
-<?= htmlspecialchars($error) ?>
+<?= $error ?>
 <script src="../js/delete_user.js"> </script>

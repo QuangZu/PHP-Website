@@ -11,7 +11,7 @@
                     <!-- User Icon -->
                     <span class="inline-flex items-center justify-center p-1 bg-white rounded-full shadow-md">
                         <?php if (!empty($question['image'])): ?>
-                            <img src="<?= htmlspecialchars($question['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
+                            <img src="avatar_uploads/<?= htmlspecialchars($question['image']) ?>" alt="Profile Image" class="w-8 h-8 rounded-full object-cover">
                         <?php else: ?>
                             <span class="p-1">
                                 <svg class="h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,10 +40,6 @@
                     </p>
                 <?php elseif (!empty($question['questionimage'])): ?>
                     <img src="ques_uploads/<?= htmlspecialchars($question['questionimage']) ?>" alt="Question Image" class="mt-2 w-2/3 h-auto pl-72">
-                <?php elseif (!empty($question['questionlink'])): ?>
-                    <a href="<?= htmlspecialchars($question['questionlink']) ?>" class="text-blue-500 hover:underline mt-2 block">
-                        <?= htmlspecialchars($question['questionlink']) ?>
-                    </a>
                 <?php endif; ?>
 
                 <p class="text-slate-400 dark:text-slate-500 mt-2 text-xs">

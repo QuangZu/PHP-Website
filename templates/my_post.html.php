@@ -16,7 +16,12 @@
                             <p>Module: <?= htmlspecialchars($post['module_name']) ?></p>
                         </div>
                         <h2 class="font-semibold text-xl"><?= htmlspecialchars($post['questiontitle']) ?></h2>
-                        <p class="text-gray-700 mt-2"><?= htmlspecialchars($post['questiontext']) ?></p>
+                        <?php if (!empty($post['questiontext'])): ?>
+                            <p class="text-gray-700 mt-2"><?= htmlspecialchars($post['questiontext']) ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($post['questionimage'])): ?>
+                            <img src="ques_uploads/<?= htmlspecialchars($post['questionimage']) ?>" alt="Question Image" class="rounded-md w-1/3">
+                        <?php endif; ?>
                         <div class="mt-4 ml-12 flex space-x-8 items-center scale-110">
                             <button type="submit" class="flex items-center space-x-1 text-red-500">
                                 <i class="fa-solid fa-heart"></i>
@@ -39,10 +44,12 @@
                         <div class="absolute top-0 right-0 m-4">
                             <button id="optionsButton-<?= $post['questionid'] ?>" class="text-gray-600 text-2xl font-bold pr-2 focus:outline-none">&#8230;</button>
                             <div id="optionsMenu-<?= $post['questionid'] ?>" class="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg hidden">
-                                <button onclick="editPost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-pen pr-2"></i>Edit</button>
-                                <button onclick="deletePost(<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
-                                <i class="fa-solid fa-trash pr-2"></i>Delete</button>
+                                <a href="edit_post.php?id=<?= $post['questionid'] ?>" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 block">
+                                    <i class="fa-solid fa-pen pr-2"></i>Edit
+                                </a>
+                                <a href="delete_post.php?id=<?= $post['questionid'] ?>)" class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
+                                    <i class="fa-solid fa-trash pr-2"></i>Delete
+                                </a>
                             </div>
                         </div>
                     </div>

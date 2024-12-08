@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-6">
                 <?php if (!empty($user['image'])): ?>
-                    <img src="<?= htmlspecialchars($user['image']) ?>" class="w-24 h-24 rounded-full object-cover">
+                    <img src="avatar_uploads/<?= htmlspecialchars($user['image']) ?>" class="w-24 h-24 rounded-full object-cover">
                 <?php else: ?>
                     <span class="p-1">
                         <svg class="h-24 w-24 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,11 +61,7 @@
                             <?php if (!empty($post['questiontext'])): ?>
                                 <p class="text-gray-700 mt-2"><?= htmlspecialchars($post['questiontext']) ?></p>
                             <?php elseif (!empty($post['questionimage'])): ?>
-                                <img src="<?= htmlspecialchars($post['questionimage']) ?>" alt="Post Image" class="w-full h-auto rounded-lg mt-2">
-                            <?php elseif (!empty($post['questionlink'])): ?>
-                                <a href="<?= htmlspecialchars($post['questionlink']) ?>" class="text-blue-500 hover:underline mt-2 block">
-                                    <?= htmlspecialchars($post['questionlink']) ?>
-                                </a>
+                                <img src="avatar_uploads/<?= htmlspecialchars($post['questionimage']) ?>" alt="Post Image" class="w-full h-auto rounded-lg mt-2">
                             <?php endif; ?>
 
                             <div class="mt-4 flex space-x-8 items-center">

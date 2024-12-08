@@ -13,11 +13,11 @@ $success = '';
 $error = '';
 
 $user = getUser($pdo, $user_id);
-$questions = getUserQuestions($pdo, $user_id);
 $savedQuestions = getUserSavedQuestions($pdo, $user_id);
 
+// Handle profile image
 if (isset($_POST['upload_image']) && isset($_FILES['profile_image'])) {
-    $stmt = $pdo->prepare("SELECT image FROM users WHERE user_id = :user_id");
+    $stmt = $pdo->prepare("SELECT image FROM user WHERE user_id = :user_id");
     $stmt->execute(['user_id' => $user_id]);
     $currentImage = $stmt->fetchColumn();
 
@@ -26,7 +26,7 @@ if (isset($_POST['upload_image']) && isset($_FILES['profile_image'])) {
         $pdo,
         $_FILES['profile_image'],
         'avatar_uploads/',
-        "UPDATE users SET image = :image WHERE user_id = :user_id",
+        "UPDATE user SET image = :image WHERE user_id = :user_id",
         ['user_id' => $user_id],
         $currentImage
     );
@@ -40,7 +40,7 @@ if (isset($_POST['upload_image']) && isset($_FILES['profile_image'])) {
     }
 }
 
-// Handle profile updates
+// Handle profile name
 if (isset($_POST['change_name'])) {
     $newUsername = trim($_POST['username']);
     if (!empty($newUsername)) {
@@ -77,7 +77,7 @@ if (isset($_POST['change_password'])) {
 }
 
 if (isset($_POST['delete_account']) && $isLoggedIn) {
-    if (deleteUserAccount($pdo, $user_id)) {
+    if (deleteUser($pdo, $user_id)) {
         $profileImagePath = !empty($user['image']) ? 'avatar_uploads/' . $user['image'] : null;
         if ($profileImagePath && file_exists($profileImagePath)) {
             unlink($profileImagePath);
